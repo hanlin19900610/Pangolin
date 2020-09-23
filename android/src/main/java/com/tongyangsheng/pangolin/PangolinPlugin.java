@@ -7,13 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
@@ -21,10 +17,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -159,6 +152,7 @@ public class PangolinPlugin implements FlutterPlugin, MethodCallHandler, Activit
       intent.setClass(activity,SplashActivity.class);
       intent.putExtra("mCodeId",mCodeId);
       intent.putExtra("debug",deBug);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       activity.startActivity(intent);
     }
     else if (call.method.equals("loadRewardAd")) {

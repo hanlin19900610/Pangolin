@@ -6,40 +6,51 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
-
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
+        ),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        home: SplashPage());
+  }
+}
+
+class SplashPage extends StatefulWidget {
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
   String _platformVersion = 'Unknown';
 
   @override
   void initState() {
-    Pangolin.pangolinResponseEventHandler.listen((value)
-    {
-      if(value is Pangolin.onRewardResponse)
-        {
-          print("激励视频回调：${value.rewardVerify}");
-          print("激励视频回调：${value.rewardName}");
-          print("激励视频回调：${value.rewardAmount}");
+    Pangolin.pangolinResponseEventHandler.listen((value) {
+      if (value is Pangolin.onRewardResponse) {
+        print("激励视频回调：${value.rewardVerify}");
+        print("激励视频回调：${value.rewardName}");
+        print("激励视频回调：${value.rewardAmount}");
 
-          if(value.rewardName == "rewardVideo Close")
-            {
-              debugPrint("视频关闭了");
-            }
+        if (value.rewardName == "rewardVideo Close") {
+          debugPrint("视频关闭了");
         }
-      else
-        {
-          print("回调类型不符合");
-        }
+      } else {
+        print("回调类型不符合");
+      }
     });
     super.initState();
     initPlatformState();
   }
-
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
@@ -51,7 +62,7 @@ class _MyAppState extends State<MyApp> {
       Permission.storage,
     ].request();
     //校验权限
-    if(statuses[Permission.location] != PermissionStatus.granted){
+    if (statuses[Permission.location] != PermissionStatus.granted) {
       print("无位置权限");
     }
     _initPangolin();
@@ -72,48 +83,41 @@ class _MyAppState extends State<MyApp> {
 //  true,
 //  true,
 //  true
-  _initPangolin() async
-  {
+  _initPangolin() async {
     await Pangolin.registerPangolin(
-        appId: "5056758",
-        useTextureView: true,
-        appName: "爱看",
-        allowShowNotify: true,
-        allowShowPageWhenScreenLock: true,
-        debug: true,
-        supportMultiProcess: true
-    ).then((v){
-      _loadRewardAd();
+            appId: "5056758",
+            useTextureView: true,
+            appName: "爱看",
+            allowShowNotify: true,
+            allowShowPageWhenScreenLock: true,
+            debug: true,
+            supportMultiProcess: true)
+        .then((v) {
+      _loadSplashAd();
     });
   }
 
-  _loadSplashAd() async
-  {
-        Pangolin.loadSplashAd(
-            mCodeId: "887310537",
-            debug: false);
+  _loadSplashAd() async {
+    Pangolin.loadSplashAd(mCodeId: "887310537", debug: false);
   }
 
   //945122969
-  _loadRewardAd() async
-  {
+  _loadRewardAd() async {
     await Pangolin.loadRewardAd(
-      isHorizontal: false,
-      debug: true,
-      mCodeId: "945122969",
-      supportDeepLink: true,
-      rewardName: "书币",
-      rewardAmount: 3,
-      isExpress: true,
-      expressViewAcceptedSizeH: 500,
-      expressViewAcceptedSizeW: 500,
-      userID: "user123",
-      mediaExtra: "media_extra"
-        );
+        isHorizontal: false,
+        debug: true,
+        mCodeId: "945122969",
+        supportDeepLink: true,
+        rewardName: "书币",
+        rewardAmount: 3,
+        isExpress: true,
+        expressViewAcceptedSizeH: 500,
+        expressViewAcceptedSizeW: 500,
+        userID: "user123",
+        mediaExtra: "media_extra");
   }
 
-  _loadBannerAd() async
-  {
+  _loadBannerAd() async {
     await Pangolin.loadBannerAd(
         mCodeId: "945330217",
         supportDeepLink: true,
@@ -121,37 +125,23 @@ class _MyAppState extends State<MyApp> {
         expressViewHeight: 300,
         isCarousel: true,
         interval: 40,
-      topMargin: 300
-    );
+        topMargin: 300);
   }
 
-  _loadInterstitialAd() async
-  {
+  _loadInterstitialAd() async {
     await Pangolin.loadInterstitialAd(
-        mCodeId: "945332768",
-        expressViewWidth: 300,
-        expressViewHeight: 300
-    );
+        mCodeId: "945332768", expressViewWidth: 300, expressViewHeight: 300);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Center(
-            child: FlatButton(
-              onPressed: ()
-              {
-
-              },
-              child: Text("Pangolin"),
-            ),
-          ),
-        ),
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        alignment: Alignment.center,
+        child: InkWell(child: Text("测试广告"), onTap: (){
+          _loadSplashAd();
+        },),
       ),
     );
   }

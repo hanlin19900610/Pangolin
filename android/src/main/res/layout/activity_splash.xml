@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#fff"
     android:orientation="vertical"
     tools:context="com.tongyangsheng.pangolin.SplashActivity">
 
@@ -11,5 +11,5 @@
         android:id="@+id/splash_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000000"></FrameLayout>
+        android:background="#fff"></FrameLayout>
 </LinearLayout>
